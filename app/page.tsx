@@ -1,101 +1,233 @@
+"use client"
 import Image from "next/image";
+import React, { ChangeEvent, FormEvent, useState } from "react";
+import logoimg from "@/public/images/cor 2.png";
+import { AuthInput } from "@/components/input";
+import {useLogin} from "@/hooks/useLogin";
+import { AsyncLocalStorage } from "async_hooks";
+import { EmailConfirm } from "@/components/EmailConfirm";
+import { usePostUsers } from "@/hooks/usePostUsers";
+import { redirect } from 'next/navigation'
+import { Loading } from "@/components/Loading";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  //type form
+  const [trueLogin, setTrueLogin] = useState(true);
+  const [loading, setLoading] = useState(false);
+
+  //Login
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  //Registed
+  const [name, setName] = useState('');
+  const [emailR, setEmailR] = useState('');
+  const [passwordR, setPasswordR] = useState('');
+  const [confirmPasswordR, setConfirmPasswordR] = useState('');
+
+  //confirm E-mail
+  const[trueConfirmEmail, setTrueConfirmEmail] = useState(false);
+
+  //hooks
+  const {authenticationLogin} = useLogin();
+  const {authenticationAddUsers} = usePostUsers();
+
+  //Erro of the login and register
+  const [erro, setErro] = useState("");
+  const [erroR, setErroR] = useState("");
+
+  //Login inputs
+  const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.currentTarget.value);
+  };
+
+  const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.currentTarget.value);
+  };
+
+  //Register inputs
+  const handleName = (e: ChangeEvent<HTMLInputElement>) => {
+    setName(e.currentTarget.value);
+  };
+
+  const handleEmailR = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmailR(e.currentTarget.value);
+  };
+
+  const handlePasswordR = (e: ChangeEvent<HTMLInputElement>) => {
+    setPasswordR(e.currentTarget.value);
+  };
+
+  const handleConfirmPasswordR = (e: ChangeEvent<HTMLInputElement>) => {
+    setConfirmPasswordR(e.currentTarget.value);
+  };
+
+  //Push Form
+  const handleForm = (e: FormEvent<HTMLFormElement>) =>{
+    e.preventDefault();
+    setLoading(true);
+    if(trueLogin){
+      const loginRes = {
+        email,
+        password
+      }; 
+      const resultLogin = authenticationLogin(loginRes);
+      resultLogin.then(value=>{
+        if(typeof value == "string"){
+          setErro(value);
+          setLoading(false)
+        }else{
+          setErro("")
+          localStorage.setItem("meuDado", JSON.stringify(value));
+          setLoading(false)
+          redirect(`/Register/`)
+        }
+      })
+    }else{
+      if(passwordR !== confirmPasswordR){
+        setErroR("Senhas estão diferentes")
+        setLoading(false)
+        return
+      }
+      if(passwordR.length !== 8){
+        setErroR("Senha não contém 8 digitos")
+        setLoading(false)
+        return
+      }
+      setLoading(false)
+      setTrueConfirmEmail(true);
+    }
+  }
+
+  //true Confirm E-mail
+  const handleConfirmEmail = () =>{
+    setLoading(true);
+    setTrueConfirmEmail(false)
+    const userRegister = {
+      name,
+      email: emailR,
+      password: passwordR,
+      isAdmin: false,
+    }
+    const res = authenticationAddUsers(userRegister);
+    res.then(value=>{
+      if(value === "User created!"){
+        const loginRes = {
+          email: emailR,
+          password: passwordR,
+        }; 
+        const resultLogin = authenticationLogin(loginRes);
+        resultLogin.then(value=>{
+          if(typeof value == "string"){
+            setErro(value);
+            setLoading(false);
+          }else{
+            setErro("")
+            localStorage.setItem("meuDado", JSON.stringify(value));
+            setLoading(false);
+            redirect(`/Register/`)
+          }
+        })
+      }else{
+        setErroR(value)
+      }
+    })
+  }
+
+
+  return (
+    <div className="bg-[#3C3D37] w-full h-[100vh] flex items-center justify-center gap-[20px] relative" >
+
+      {loading?(
+        <Loading/>
+      ):null}
+
+      {trueConfirmEmail?(
+        <div className="z-10 w-full h-full absolute flex justify-center items-center bg-black/50" >
+        <EmailConfirm exitConfirm={()=>{
+          setTrueConfirmEmail(false); 
+        }} email={emailR} autheConfirm={handleConfirmEmail} />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      ):null}
+
+      {trueLogin?(
+        <React.Fragment>
+            <div className="hidden xl:flex flex-col w-[638px] h-[543px] bg-[#697565] text-[#ECDFCC] rounded-[25px] items-center" >
+            <Image
+                src={logoimg}
+                alt="Logo"
+                className="img_darken"
+                style={{ objectFit: "contain", marginBottom:"40px", marginTop:"10px" }}
+                width={202}
+                height={202}
+              />
+            <p className="text-[18px] w-[50%] text-center mb-[20px]" >Faça o login da sua conta, assim você terá acesso a sua conta e verá sua inscrição para o acampamento 2025. </p>
+            <p className="text-[18px] w-[50%] text-center mb-[40px]" >Não tem conta? Então faça o cadastro! </p>
+            <button className="bg-[#ECDFCC] w-[173px] h-[58px] rounded-[10px] text-[#697565] font-bold" onClick={()=>{
+              setTrueLogin(false)
+            }}>
+              CADASTRO
+            </button>
+          </div>
+          <div className="flex flex-col w-full h-full md:w-[638px] md:h-[543px] bg-[#ECDFCC]  md:rounded-[25px] items-center" >
+            <h2 className="text-[48px] text-[#3C3D37] font-bold mt-[80px] mb-[60px]" >Login</h2>
+            <form action="" className="w-[70%] flex flex-col items-center gap-[45px]" onSubmit={handleForm}>
+                <AuthInput erro={erro == ""? false: true} name={email} onchange={handleEmail} placeholder="E-mail" type="text" value={email} id="1" required />
+                <AuthInput erro={erro == ""? false: true} name={password} onchange={handlePassword} placeholder="Senha" type="password" value={password} id="2" required />
+                <button className="bg-[#3C3D37] w-[173px] h-[58px] rounded-[10px] text-[#ECDFCC] font-bold mt-[60px]">
+                  LOGIN
+                </button>
+                <p className="text-[#3C3D37]/80 mt-[-30px] xl:hidden" onClick={()=>{
+                  setTrueLogin(false);
+                }} >Fazer cadastro</p>
+            </form>
+            {erro !== ""?(
+              <p className="text-[red] mt-4" >{erro}</p>
+            ):null}
+          </div>
+        </React.Fragment>
+      ):(
+        <React.Fragment>
+          <div className="flex flex-col w-full h-full md:w-[638px] md:h-[543px] bg-[#ECDFCC]  md:rounded-[25px] items-center" >
+            <h2 className="text-[48px] text-[#3C3D37] font-bold mt-[70px] mb-[40px]" >Cadastro</h2>
+            <form onSubmit={handleForm} className="w-[70%] flex flex-col items-center gap-[35px]">
+                <AuthInput erro={erroR == ""? false: true} name={name} onchange={handleName} placeholder="Nome" type="text" value={name} id="1" required />
+                <AuthInput erro={erroR == ""? false: true} name={emailR} onchange={handleEmailR} placeholder="E-mail" type="text" value={emailR} id="2" required />
+                <AuthInput erro={erroR == ""? false: true} name={passwordR} onchange={handlePasswordR} placeholder="Senha" type="password" value={passwordR} id="3" required />
+                <AuthInput erro={erroR == ""? false: true} name={confirmPasswordR} onchange={handleConfirmPasswordR} placeholder="Confirmar Senha" type="password" value={confirmPasswordR} id="4" required />
+                <p className="text-[#3C3D37] mt-[-20px] self-start" >A senha deve conter oito digitos</p>
+                <button className="bg-[#3C3D37] w-[173px] h-[58px] rounded-[10px] text-[#ECDFCC] font-bold mt-[-15px]">
+                  CADASTRO
+                </button>
+                <p className="text-[#3C3D37]/80 mt-[-30px] xl:hidden" onClick={()=>{
+                  setTrueLogin(false);
+                }} >Fazer login</p>
+            </form>
+            {erroR !== ""?(
+              <p className="text-[red] mt-1" >{erroR}</p>
+            ):null}
+          </div>
+          <div className="hidden xl:flex flex-col w-[638px] h-[543px] bg-[#697565] text-[#ECDFCC] rounded-[25px] items-center" >
+            <Image
+                src={logoimg}
+                alt="Logo"
+                className="img_darken"
+                style={{ objectFit: "contain", marginBottom:"40px", marginTop:"10px" }}
+                width={202}
+                height={202}
+              />
+            <p className="text-[18px] w-[50%] text-center mb-[20px]" >Faça o cadastro da sua conta, assim você terá acesso a sua conta e verá sua inscrição para o acampamento 2025.</p>
+            <p className="text-[18px] w-[50%] text-center mb-[40px]" >Já tem conta? Então faça o login!</p>
+            <button className="bg-[#ECDFCC] w-[173px] h-[58px] rounded-[10px] text-[#697565] font-bold" onClick={()=>{
+              setTrueLogin(true)
+            }}>
+              LOGIN
+            </button>
+          </div>
+        
+        </React.Fragment>
+      )}
     </div>
   );
 }

@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int          @id @default(autoincrement())
+  name       String
+  email      String       @unique
+  password   String
+  isAdmin    Boolean      @default(false)
+  imgUser    String?      @default("")
+  registered Registered[]  
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+}
+
+model Registered {
+  id                Int        @id @default(autoincrement())
+  phoneNumber       String
+  birthDate         DateTime
+  cpf               String     @unique
+  sex               String     @default("M")
+  allergy           Boolean
+  allergyDetails    String?    // Campo opcional
+  medication        Boolean
+  medicationDetails String?    // Campo opcional
+  guardianName      String?    // Campo opcional
+  numberEmergency   String     @default("192")
+  city              String
+  state             String
+  neighborhood      String
+  zipCode           String
+  number            String
+  referencePoint    String
+  plan              String      @default("Valor de 160")
+  userId            Int        @unique 
+  user              User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  payments          Payment[]  
+}
+
+model Payment {
+  id             Int         @id @default(autoincrement())
+  amount         Float
+  method         String
+  twoMethod      String?
+  quantity       Float
+  isPaid         Boolean     @default(false)
+  resAdmin       String?
+  checking       String?
+  numbPayment    Int 
+  registeredId   Int         
+  registered     Registered  @relation(fields: [registeredId], references: [id], onDelete: Cascade)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+}
+
