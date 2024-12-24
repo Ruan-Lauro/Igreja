@@ -48,15 +48,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
 
     } catch (error) {
-      console.error('Erro ao processar pagamento:', error.response?.data || error.message);
-      if (error.response) {
-        console.error('Código de status:', error.response.status);
-        console.error('Resposta do Mercado Pago:', error.response.data);
+      console.error('Erro ao processar pagamento:', error);
 
-        res.status(error.response.status || 500).json({
-          error: error.response.data || 'Erro interno do servidor',
+      if (axios.isAxiosError(error)) {
+        // Verifique se o erro é do tipo AxiosError
+        console.error('Código de status:', error.response?.status);
+        console.error('Resposta do Mercado Pago:', error.response?.data);
+
+        res.status(error.response?.status || 500).json({
+          error: error.response?.data || 'Erro interno do servidor',
         });
       } else {
+        // Caso o erro não seja um erro do Axios
         res.status(500).json({ error: 'Erro interno do servidor' });
       }
     }
@@ -64,5 +67,3 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(405).json({ error: 'Método não permitido' });
   }
 }
-
-
