@@ -30,7 +30,7 @@ export const usePostUsers = (): useAddGroupResult => {
         
         if (error.response && error.response.status === 400) {
           
-          return "user erro"
+          return error.response.data.error
         } else {
           return "servidor erro"
         }

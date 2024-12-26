@@ -57,8 +57,7 @@ export const usePutRegistered = (): usePutRegistered => {
       if (axios.isAxiosError(error)) {
         
         if (error.response && error.response.status === 400) {
-          
-          return "user erro"
+          return error.response.data.error
         } else {
           return "servidor erro"
         }

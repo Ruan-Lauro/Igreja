@@ -156,6 +156,8 @@ export default function Register() {
                 console.log(listRegis)
                 listRegis.then(val=>{
                   console.log("Aqui 4")
+                  console.log("Vários:")
+                  console.log(val)
                     const listNew = val.filter(on=> on.userId === parsedUser.id);
                     console.log(listNew)
                     if(typeof listNew[0] === "object"){
@@ -331,6 +333,9 @@ export default function Register() {
 
     res.then(value=>{
         if(value === "Registered changed"){
+          setLoading(false);
+        }else{
+          setErroRegister(value);
           setLoading(false);
         }
     })
