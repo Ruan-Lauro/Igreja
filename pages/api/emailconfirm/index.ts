@@ -49,7 +49,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
 
         console.log("E-mail enviado com sucesso:", info);
-        res.status(201).json({ message: "Código de confirmação enviado.", code: cod });
+        res.status(201).json(cod);
       });
 
     } catch (error) {
