@@ -18,7 +18,7 @@ export default async function installment(req: NextApiRequest, res: NextApiRespo
       console.log(response.data)
 
       if (response.data && response.data.length > 0) {
-        const options = response.data[0].payer_costs.map((cost: any) => ({
+        const options = response.data[0].payer_costs.map((cost: { installments: string; total_amount: number; recommended_message: string; }) => ({
           installments: cost.installments,
           total: cost.total_amount,
           message: cost.recommended_message,

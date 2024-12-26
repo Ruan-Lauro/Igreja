@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           }
         })
   
-        let cod = generateRandomString()
+        const cod = generateRandomString()
   
         const emailOptions = {
           from: process.env.EMAIL,
@@ -22,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           text: cod,
         }
   
-        transponder.sendMail(emailOptions, (error, info)=>{
+        transponder.sendMail(emailOptions, (error)=>{
           if(error){
             res.status(500).json("Erro no envio do email.");
           }

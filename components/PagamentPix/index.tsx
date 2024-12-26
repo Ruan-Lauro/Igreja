@@ -13,7 +13,7 @@ type Pix = {
 export const PagamentPix = ({ idRegistered, value, number, twoMethod, Start, End }: Pix) => {
 
   const [checkImg, setCheckImg] = useState<File | null>(null);
-  const [imgUrl, setImgUrl] = useState<string>("");
+  // const [imgUrl, setImgUrl] = useState<string>("");
 
   //hooks
   const {authenticationAddPagament} = usePostPagament();
@@ -117,14 +117,14 @@ export const PagamentPix = ({ idRegistered, value, number, twoMethod, Start, End
           Confirmar Pagamento
         </button>
       </form>
-      {imgUrl && (
+      {/* {imgUrl && (
         <div className="mt-4">
           <p className="text-[#ECDFCC]">Imagem enviada com sucesso:</p>
           <a href={imgUrl} target="_blank" rel="noopener noreferrer" className="text-blue-400">
             Ver Comprovante
           </a>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

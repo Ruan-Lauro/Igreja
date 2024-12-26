@@ -25,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       } = req.body;
   
       try {
-        const newRegistered = await prisma.registered.create({
+        await prisma.registered.create({
           data: {
             phoneNumber,
             birthDate: new Date(birthDate),
@@ -47,6 +47,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             plan,
           },
         });
+        /* eslint-disable @typescript-eslint/no-unused-vars */
         res.status(201).json("Create Registered!!");
       } catch (error) {
         res.status(500).json({ error: 'Failed to create registered user', details: error });

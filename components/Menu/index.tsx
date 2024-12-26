@@ -7,8 +7,6 @@ import perfil from "@/public/images/user.png";
 import event from "@/public/images/event.png";
 import pagament from "@/public/images/pagament.png";
 import menu from "@/public/images/menu.png";
-import sair from "@/public/images/infor.png";
-import { link } from "fs";
 import Link from "next/link";
 import { useState } from "react";
 import { redirect } from "next/navigation";
@@ -32,7 +30,7 @@ export const Menu = ({value}:menu) =>{
                     height={130}
                 />
                 <div className="flex flex-col items-center h-[370px] justify-between" >
-                        <Link href="#">
+                        <Link href="Home">
                             {value == "1"?(
                                 <div className="flex flex-col items-center gap-2 w-[45px] h-[45px]" >
                                 <Image
@@ -131,7 +129,7 @@ export const Menu = ({value}:menu) =>{
                 </div>
           </div>
           <div className="md:hidden w-full flex items-center justify-between pl-2 pr-2" style={menuL?{display:"none"}:{}}>
-            <Link href="#">
+            <Link href="Home">
                 <Image
                     src={logo}
                     alt="Logo"
@@ -152,7 +150,7 @@ export const Menu = ({value}:menu) =>{
             />
           </div>
           <div className="w-full flex-col ml-10 mt-10 gap-5" style={menuL?{display:"flex"}:{display:"none"}} >
-                <Link href="#" >
+                <Link href="Home" >
                     <p className="text-[18px]" >Home</p>
                 </Link>
                 <Link href="Perfil" >

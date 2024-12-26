@@ -6,7 +6,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const { amount, method, quantity, isPaid, registeredId, resAdmin, checking, numbPayment, twoMethod } = req.body;
   
       try {
-        const newPayment = await prisma.payment.create({
+         await prisma.payment.create({
           data: {
             amount,
             method,
@@ -19,6 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             twoMethod,
           },
         });
+
         
         res.status(201).json("Payment create");
       } catch (error) {

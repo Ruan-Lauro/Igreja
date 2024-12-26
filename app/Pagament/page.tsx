@@ -34,9 +34,9 @@ export default function Pagament (){
         setFormPag(e.currentTarget.value);
     };
 
-    useEffect(() => {
-      setUpdate(!update);
-    }, []);
+    useEffect(()=>{
+        setUpdate(!update);
+    },[])
 
     useEffect(() => {
         const element = localStorage.getItem('meuDado');
@@ -112,7 +112,7 @@ export default function Pagament (){
                 </div>
                 {pagament?(
                     <React.Fragment>
-                        {!pagament.twoMethod && pagament.twoMethod !== "Três vezes"?(
+                        {!pagament.twoMethod && pagament.twoMethod !== "Duas vezes"?(
                             <div className="text-[#3C3D37] text-center mt-10 flex flex-col" >
                                 <h2 className="text-[25px] font-bold" >Você já efetuou o pagamento via {pagament.method}</h2>
                                 <p className="text-[18px] font-semibold" >Situação: <span className="text-[18px] font-bold text-[#ECDFCC]" >{pagament.isPaid?"Está pago":"Não pago"}</span></p>
@@ -125,13 +125,13 @@ export default function Pagament (){
                             }} End={()=>{
                                 setLoading(false);
                                 setUpdate(!update);
-                            }} RegisteredId={registered?.id!} email={user?.email!} value={valueP!}/>
+                            }} RegisteredId={registered?.id || 1} email={user?.email || ""} value={valueP || 160}/>
                         )}
                     </React.Fragment>
                 ):(
                     <React.Fragment>
                         <div className="max-w-md mt-10" >
-                            <SelectInput name={formatPag} value={formatPag} id="1" required onchange={handleFormaPag} options={["Cartão de crédito", "Pix", "Três vezes, parcelado com a igreja", "Dinheiro em mãos"]} placeholder="" erro />
+                            <SelectInput name={formatPag} value={formatPag} id="1" required onchange={handleFormaPag} options={["Cartão de crédito", "Pix", "Duas vezes, parcelado com a igreja", "Dinheiro em mãos"]} placeholder="" erro />
                         </div>
                         {formatPag === "Cartão de crédito"?(
                             <div className="w-[90%] md:w-auto" >
@@ -140,7 +140,7 @@ export default function Pagament (){
                                 }} End={()=>{
                                     setLoading(false);
                                     setUpdate(!update);
-                                }} value={valueP!} idRegistered={registered?.id!} email={user?.email!} number={1}/>
+                                }} value={valueP || 160} idRegistered={registered?.id || 1} email={user?.email || ""} number={1}/>
                             </div>
                         ):(
                             <React.Fragment>
@@ -151,17 +151,17 @@ export default function Pagament (){
                                         }} End={()=>{
                                             setLoading(false);
                                             setUpdate(!update);
-                                        }} idRegistered={registered?.id!} value={valueP!} number={1}/>
+                                        }} idRegistered={registered?.id || 1} value={valueP || 160} number={1}/>
                                     </div>
                                 ):( 
                                     <React.Fragment>
-                                        {formatPag === "Três vezes, parcelado com a igreja"?(
+                                        {formatPag === "Duas vezes, parcelado com a igreja"?(
                                             <PagamentThree Start={()=>{
                                                 setLoading(true);
                                             }} End={()=>{
                                                 setLoading(false);
                                                 setUpdate(!update);
-                                            }} RegisteredId={registered?.id!} email={user?.email!} value={valueP!}/>
+                                            }} RegisteredId={registered?.id || 1} email={user?.email || ""} value={valueP!}/>
                                         ):(
                                             <div className="w-[90%] md:w-auto" >
                                                 <PagamentMoney Start={()=>{
@@ -169,7 +169,7 @@ export default function Pagament (){
                                                 }} End={()=>{
                                                     setLoading(false);
                                                     setUpdate(!update);
-                                                }} RegisteredId={registered?.id!} number={1} value={valueP!}/>
+                                                }} RegisteredId={registered?.id || 1} number={1} value={valueP!}/>
                                             </div>
                                         )}
                                     </React.Fragment>

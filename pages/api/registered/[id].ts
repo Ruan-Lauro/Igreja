@@ -41,7 +41,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       } = req.body;
     
       try {
-        const updatedRegistered = await prisma.registered.update({
+         await prisma.registered.update({
           where: { id: Number(id) },
           data: {
             phoneNumber,
@@ -64,6 +64,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             userId,
           },
         });
+        /* eslint-disable @typescript-eslint/no-unused-vars */
         res.status(200).json("Registered changed");
       } catch (error) {
         res.status(500).json({ error: 'Failed to update registered user', details: error });

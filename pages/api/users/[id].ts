@@ -20,7 +20,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const { name, email, password, isAdmin, imgUser } = req.body;
   
       try {
-        const updatedUser = await prisma.user.update({
+         await prisma.user.update({
+  
           where: { id: Number(id) },
           data: { name, email, password, isAdmin, imgUser },
         });

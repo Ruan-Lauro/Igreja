@@ -19,7 +19,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(401).json({ error: 'Invalid password' });
       }
 
-      const { password: _, ...userData } = user;
+      // Criar uma cópia do usuário sem a senha
+      const userData: Omit<typeof user, 'password'> = {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        isAdmin: user.isAdmin,
+        imgUser: user.imgUser,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt
+      };
+
       res.status(200).json(userData);
     } catch (error) {
       res.status(500).json({ error: 'Failed to login', details: error });
@@ -29,3 +39,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
+

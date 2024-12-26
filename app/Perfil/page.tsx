@@ -45,9 +45,9 @@ export default function Pagament() {
     }
   };
 
-  useEffect(() => {
-    setUpdate(!update);
-  }, []);
+  useEffect(()=>{
+      setUpdate(!update);
+  },[])
 
   useEffect(() => {
     setLoading(true);

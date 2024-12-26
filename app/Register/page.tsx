@@ -287,10 +287,15 @@ export default function Register() {
         redirect(`/`);
     }
 
+    if(!registered){
+      alert("Erro no registered");
+      return;
+    }
+
     setErroRegister("");
 
     const registerUser = {
-        id: registered?.id!,
+        id: registered.id,
         phoneNumber: phoneNumber,
         birthDate: new Date(birthDate), 
         cpf: cpf,

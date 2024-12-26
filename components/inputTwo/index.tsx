@@ -23,14 +23,12 @@ export const InputTwo = ({
     onchange,
     required,
     erro,
-    minL,
-    maxL,
   }: AuthInputTwo) => {
     return (
       <div className="flex flex-col w-[100%] min-w-[200px]" >
         <label htmlFor={name} className="text-[16px] text-[#ECDFCC]" >{placeholder}</label>
         <input 
-          className={`w-[100%] bg-[#ECDFCC] rounded-[10px] h-[35px] text-[#3C3D37] focus:outline-none pl-5 pr-1`}
+          className={erro?`w-[100%] bg-[#ECDFCC] rounded-[10px] h-[35px] text-[#3C3D37] focus:outline-none pl-5 pr-1`:`w-[100%] bg-[#ECDFCC] rounded-[10px] h-[35px] text-[#3C3D37] focus:outline-none pl-5 pr-1`}
           type={type}
           name={name}
           id={id}
@@ -38,6 +36,7 @@ export const InputTwo = ({
           onChange={onchange}
           required = {required}
           // placeholder={name}
+          
           />
       </div>
     );

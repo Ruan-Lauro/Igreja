@@ -32,7 +32,7 @@ export const SelectInput = ({
         value={value}
         onChange={onchange}
         required={required}
-        className={`w-[100%] bg-[#ECDFCC] rounded-[10px] h-[35px] text-[#3C3D37] focus:outline-none pl-5 pr-10`}
+        className={erro?`w-[100%] bg-[#ECDFCC] rounded-[10px] h-[35px] text-[#3C3D37] focus:outline-none pl-5 pr-10`:`w-[100%] bg-[#ECDFCC] rounded-[10px] h-[35px] text-[#3C3D37] focus:outline-none pl-5 pr-10`}
       >
         {options.map((option, index) => (
           <option key={index} value={option}>
