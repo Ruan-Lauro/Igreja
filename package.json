@@ -12,6 +12,7 @@
     "@prisma/client": "^6.1.0",
     "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
     "date-fns": "^4.1.0",
     "mercadopago": "^2.1.0",
     "next": "15.0.4",
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
     "@types/node": "^20",
     "@types/nodemailer": "^6.4.17",
     "@types/react": "^19",

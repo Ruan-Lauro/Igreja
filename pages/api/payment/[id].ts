@@ -1,7 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '../../../lib/prisma';
+import initCors from '../../../lib/cors';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    await initCors(req, res);
     const { id } = req.query;
   
     if (req.method === 'GET') {

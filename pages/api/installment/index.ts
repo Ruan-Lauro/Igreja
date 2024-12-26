@@ -1,7 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
+import initCors from '../../../lib/cors';
 
 export default async function installment(req: NextApiRequest, res: NextApiResponse) {
+  await initCors(req, res);
   if (req.method === 'POST') {
     const { value, cardFlag } = req.body;
 

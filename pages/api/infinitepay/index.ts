@@ -1,8 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid'; 
+import initCors from '../../../lib/cors';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  await initCors(req, res);
   if (req.method === 'POST') {
     try {
       const { amount, installments, cardToken, email, paymentMethodId } = req.body;

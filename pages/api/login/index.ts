@@ -1,8 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '../../../lib/prisma';
 import bcrypt from 'bcrypt';
+import initCors from '../../../lib/cors';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  await initCors(req, res);
   if (req.method === 'POST') {
     const { email, password } = req.body;
 
