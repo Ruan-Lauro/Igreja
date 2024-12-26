@@ -133,27 +133,38 @@ export default function Register() {
     }
     return age;
   };
+
   useEffect(()=>{
     setUpdate(!update);
   },[])
 
   useEffect(() => {
+    console.log("Aquiiiii")
     const element = localStorage.getItem('meuDado');
     console.log(element);
 
     if (element) {
+      console.log("Aqui 2")
         try {
             const parsedUser = JSON.parse(element);
             if (parsedUser && typeof parsedUser === "object") {
+              console.log("Aqui 3")
+              console.log(parsedUser)
                 setLoading(true);
                 setUser(parsedUser);
                 const listRegis = authenticationRegistered();
+                console.log(listRegis)
                 listRegis.then(val=>{
+                  console.log("Aqui 4")
                     const listNew = val.filter(on=> on.userId === parsedUser.id);
+                    console.log(listNew)
                     if(typeof listNew[0] === "object"){
+                      console.log("Aqui 5")
+                      console.log(listNew[0])
                       setRegistered(listNew[0]);
                       setLoading(false);
                     }else{
+                      console.log("Fui embora")
                         setLoading(false);
                     }
                 }); 
