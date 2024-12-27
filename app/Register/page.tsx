@@ -162,7 +162,7 @@ export default function Register() {
                     console.log("Resultado:")
                     console.log(typeof listNew[0])
                     console.log(typeof listNew)
-                    if(typeof listNew[0] === "object"){
+                    if(listNew[0]){
                       console.log("Aqui 5")
                       console.log(listNew[0])
                       setRegistered(listNew[0]);
