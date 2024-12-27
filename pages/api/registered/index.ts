@@ -4,6 +4,8 @@ import initCors from '../../../lib/cors';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   await initCors(req, res);
+  
+  res.setHeader('Cache-Control', 'no-store');
 
   if (req.method === 'POST') {
     const {

@@ -4,23 +4,10 @@ import initCors from '../../../lib/cors';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   await initCors(req, res);
+  res.setHeader('Cache-Control', 'no-store');
   const { id } = req.query;
 
-  if (req.method === 'GET') {
-    try {
-      const registered = await prisma.registered.findUnique({
-        where: { id: Number(id) },
-      });
-
-      if (registered) {
-        res.status(200).json(registered);
-      } else {
-        res.status(404).json({ error: 'Registered user not found' });
-      }
-    } catch (error) {
-      res.status(500).json({ error: 'Failed to fetch registered user', details: error });
-    }
-  } else if (req.method === 'PUT') {
+  if (req.method === 'PUT') {
     const {
       phoneNumber,
       birthDate,
