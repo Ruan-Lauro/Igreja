@@ -159,7 +159,9 @@ export default function Register() {
                   console.log("Vários:")
                   console.log(val)
                     const listNew = val.filter(on=> on.userId === parsedUser.id);
-                    console.log(listNew)
+                    console.log("Resultado:")
+                    console.log(typeof listNew[0])
+                    console.log(typeof listNew)
                     if(typeof listNew[0] === "object"){
                       console.log("Aqui 5")
                       console.log(listNew[0])
