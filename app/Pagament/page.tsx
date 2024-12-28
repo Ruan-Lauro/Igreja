@@ -106,14 +106,19 @@ export default function Pagament (){
         }
     }, [update]);
 
-
-    useEffect(()=>{
-        if(valueP && formatPag === "Cartão de crédito"){
-            setValueP((valueP*0.0531)+valueP);
-        }else{
-            setValueP(valueBox);
+    const calculateValue = () => {
+        if (formatPag === "Cartão de crédito" && valueBox) {
+            return valueBox * 1.0531; 
+        } else {
+            return valueBox; 
         }
-    },[formatPag])
+    };
+
+
+    useEffect(() => {
+        setValueP(calculateValue());
+    }, [formatPag, valueBox]);
+    
 
     return(
         <main className="bg-[#697565] w-full h-[100vh] flex relative" >
@@ -168,7 +173,7 @@ export default function Pagament (){
                                         }} End={()=>{
                                             setLoading(false);
                                             setUpdate(!update);
-                                        }} idRegistered={registered?.id || 1} value={valueP || 160} number={1}/>
+                                        }} idRegistered={registered?.id || 1} value={valueBox || 160} number={1}/>
                                     </div>
                                 ):( 
                                     <React.Fragment>
@@ -178,7 +183,7 @@ export default function Pagament (){
                                             }} End={()=>{
                                                 setLoading(false);
                                                 setUpdate(!update);
-                                            }} RegisteredId={registered?.id || 1} email={user?.email || ""} value={valueP!}/>
+                                            }} RegisteredId={registered?.id || 1} email={user?.email || ""} value={valueBox || 160}/>
                                         ):(
                                             <div className="w-[90%] md:w-auto" >
                                                 <PagamentMoney Start={()=>{
@@ -186,7 +191,7 @@ export default function Pagament (){
                                                 }} End={()=>{
                                                     setLoading(false);
                                                     setUpdate(!update);
-                                                }} RegisteredId={registered?.id || 1} number={1} value={valueP!}/>
+                                                }} RegisteredId={registered?.id || 1} number={1} value={valueBox || 160}/>
                                             </div>
                                         )}
                                     </React.Fragment>

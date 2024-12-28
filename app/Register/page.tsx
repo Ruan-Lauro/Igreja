@@ -23,7 +23,7 @@ export default function Register() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [cpf, setCpf] = useState("");
-  const [sex, setSex] = useState("");
+  const [sex, setSex] = useState("M");
   const [allergy, setAllergy] = useState("");
   const [allergyDetails, setAllergyDetails] = useState("");
   const [medication, setMedication] = useState("");
@@ -323,7 +323,6 @@ export default function Register() {
         userId: user?.id,
         sex: sex,
         numberEmergency: numberEmergency,
-        plan: plan,
     }
 
     const res = authenticationPutRegistered(registerUser);
@@ -376,7 +375,9 @@ export default function Register() {
                     <div className="md:grid md:grid-cols-2 xl:flex w-full flex xl:flex-row flex-col items-center justify-between xl:gap-5 gap-2 mt-5" >
                         <SelectInput value={allergy} name={allergy} onchange={handleAllergy} id="4" options={["Sim","Não"]} placeholder="Tem alergia?" erro required />
                         <InputTwo value={allergyDetails} name={allergyDetails} placeholder="Tem alergia a quê?" onchange={handleAllergyDetails} required={allergy !== "Não"} type="text" erro={false} id="12" />
-                        <SelectInput value={plan} name={plan} onchange={handlePlan} id="13" options={["Normal", "Maternal","Infantil", "Distante", "Diaria"]} placeholder="Pagamento" erro required />
+                        {!registered?(
+                          <SelectInput value={plan} name={plan} onchange={handlePlan} id="13" options={["Normal", "Maternal","Infantil", "Distante", "Diaria"]} placeholder="Pagamento" erro required />
+                        ):null}
                     </div>
                     {referencePoint !== ""?(
                         <p className="text-[#CF0E0E] mt-[10px] font-bold" >{erroRegister}</p>

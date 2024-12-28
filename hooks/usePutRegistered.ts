@@ -24,7 +24,7 @@ export type putRegistered = {
     userId: number;
     sex: string;
     numberEmergency: string;
-    plan: string;
+   
 }
 
 export const usePutRegistered = (): usePutRegistered => {
@@ -48,7 +48,7 @@ export const usePutRegistered = (): usePutRegistered => {
         referencePoint: RegisteredPut.referencePoint,
         sex: RegisteredPut.sex,
         numberEmergency: RegisteredPut.numberEmergency,
-        plan: RegisteredPut.plan
+        
       });
 
       return response.data
