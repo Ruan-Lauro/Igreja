@@ -12,6 +12,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { format } from "date-fns";
 import { usePutRegistered } from "@/hooks/usePutRegistered";
 import { Loading } from "@/components/Loading";
+import { getCookie } from "@/lib/cookie";
 
 export default function Register() {
 
@@ -139,36 +140,30 @@ export default function Register() {
   },[])
 
   useEffect(() => {
-    console.log("Aquiiiii")
-    const element = localStorage.getItem('meuDado');
-    console.log(element);
+   
+    const element = getCookie("users");
+
 
     if (element) {
-      console.log("Aqui 2")
+     
         try {
-            const parsedUser = JSON.parse(element);
+            const parsedUser = element;
             if (parsedUser && typeof parsedUser === "object") {
-              console.log("Aqui 3")
-              console.log(parsedUser)
+             
                 setLoading(true);
                 setUser(parsedUser);
                 const listRegis = authenticationRegistered();
-                console.log(listRegis)
+             
                 listRegis.then(val=>{
-                  console.log("Aqui 4")
-                  console.log("Vários:")
-                  console.log(val)
+                  
                     const listNew = val.filter(on=> on.userId === parsedUser.id);
-                    console.log("Resultado:")
-                    console.log(typeof listNew[0])
-                    console.log(typeof listNew)
+                    
                     if(listNew[0]){
-                      console.log("Aqui 5")
-                      console.log(listNew[0])
+                    
                       setRegistered(listNew[0]);
                       setLoading(false);
                     }else{
-                      console.log("Fui embora")
+                    
                         setLoading(false);
                     }
                 }); 

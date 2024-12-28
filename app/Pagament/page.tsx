@@ -10,6 +10,7 @@ import { SelectInput } from "@/components/SelectInput";
 import { pagament, useGetPagament } from "@/hooks/useGetPagament";
 import { useGetRegistered } from "@/hooks/useGetRegistered";
 import { users } from "@/hooks/useGetUsers";
+import { getCookie } from "@/lib/cookie";
 import { Registered } from "@prisma/client";
 import { redirect } from "next/navigation";
 
@@ -39,12 +40,13 @@ export default function Pagament (){
     },[])
 
     useEffect(() => {
-        const element = localStorage.getItem('meuDado');
+        const element = getCookie("users");
+  
         setLoading(true);
     
         if (element) {
             try {
-                const parsedUser = JSON.parse(element);
+                const parsedUser = element;
                 if (parsedUser && typeof parsedUser === "object") {
                     setUser(parsedUser); 
                     const listRegis = authenticationRegistered();

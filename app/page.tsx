@@ -8,6 +8,8 @@ import { EmailConfirm } from "@/components/EmailConfirm";
 import { usePostUsers } from "@/hooks/usePostUsers";
 import { redirect } from 'next/navigation'
 import { Loading } from "@/components/Loading";
+import Cookies from "js-cookie";
+import { setCookie } from "@/lib/cookie";
 
 export default function Home() {
 
@@ -78,7 +80,7 @@ export default function Home() {
           setLoading(false)
         }else{
           setErro("")
-          localStorage.setItem("meuDado", JSON.stringify(value));
+          setCookie("users", value);
           setLoading(false)
           redirect(`/Register/`)
         }
@@ -123,7 +125,7 @@ export default function Home() {
             setLoading(false);
           }else{
             setErro("")
-            localStorage.setItem("meuDado", JSON.stringify(value));
+            setCookie("users", value);
             setLoading(false);
             redirect(`/Register/`)
           }

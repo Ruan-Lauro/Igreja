@@ -10,6 +10,7 @@ import menu from "@/public/images/menu.png";
 import Link from "next/link";
 import { useState } from "react";
 import { redirect } from "next/navigation";
+import { removeCookie } from "@/lib/cookie";
 
 type menu = {
     value: string;
@@ -163,7 +164,7 @@ export const Menu = ({value}:menu) =>{
                     <p className="text-[18px]" >Evento</p>
                 </Link>
                 <p className="text-[18px] cursor-pointer" onClick={()=>{
-                        localStorage.clear();
+                        removeCookie("users");
                         redirect("/"); 
                     }} >Sair</p>
                 <p className="text-[18px] cursor-pointer" onClick={()=>{

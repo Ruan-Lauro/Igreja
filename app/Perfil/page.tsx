@@ -10,6 +10,7 @@ import { InputTwo } from "@/components/inputTwo";
 import { useGetUsers, users } from "@/hooks/useGetUsers";
 import { EmailConfirm } from "@/components/EmailConfirm";
 import { usePutUser } from "@/hooks/usePutUser";
+import { getCookie, updateCookie } from "@/lib/cookie";
 
 export default function Pagament() {
 
@@ -51,16 +52,14 @@ export default function Pagament() {
 
   useEffect(() => {
     setLoading(true);
-    const element = localStorage.getItem("meuDado");
+    const element = getCookie("users");
     if (element) {
       try {
-        const parsedUser = JSON.parse(element);
+        const parsedUser = element;
         if (parsedUser && typeof parsedUser === "object") {
           setName(parsedUser.name);
           setEmail(parsedUser.email);
           setUser(parsedUser);
-          console.log("Passei aqui")
-          console.log(parsedUser);
           setLoading(false);
           if(parsedUser.imgUser){
             setProfileImage(parsedUser.imgUser);
@@ -185,11 +184,10 @@ export default function Pagament() {
   };
 
   const updateLocalStorage = () =>{
-    localStorage.clear();
     const listUser = authenticationUsers();
     listUser.then(res=>{
       res.find(val=> val.id === user?.id);
-      localStorage.setItem("meuDado", JSON.stringify(res[0]));
+      updateCookie("users", res[0]);
       console.log(res[0])
       setLoading(false);
       setUpdate(!update);
