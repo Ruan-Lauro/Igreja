@@ -8,7 +8,7 @@ import { EmailConfirm } from "@/components/EmailConfirm";
 import { usePostUsers } from "@/hooks/usePostUsers";
 import { redirect } from 'next/navigation'
 import { Loading } from "@/components/Loading";
-import Cookies from "js-cookie";
+
 import { setCookie } from "@/lib/cookie";
 
 export default function Home() {
