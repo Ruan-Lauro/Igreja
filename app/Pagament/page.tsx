@@ -19,11 +19,12 @@ import { ChangeEvent, useState } from "react";
 
 export default function Pagament (){
 
-    const [formatPag, setFormPag] = useState("Cartão de crédito");
+    const [formatPag, setFormPag] = useState("Pix");
     const [user, setUser] = useState<users>();
     const [registered, setRegistered] = useState<Registered>();
     const [pagament, setPagament] = useState<pagament>();
     const [valueP, setValueP] = useState<number>();
+    const [valueBox, setValueBox] = useState<number>();
     const [loading, setLoading] = useState(false);
     const [update, setUpdate] = useState(false);
 
@@ -57,18 +58,23 @@ export default function Pagament (){
                             switch (listNew[0].plan){
                                 case "Normal":
                                     setValueP(160);
+                                    setValueBox(160);
                                 break;
                                 case "Maternal":
                                     setValueP(2);
+                                    setValueBox(2);
                                 break;
                                 case "Infantil":
                                     setValueP(80);
+                                    setValueBox(80);
                                 break;
                                 case "Distante":
                                     setValueP(120);
+                                    setValueBox(120);
                                 break;
                                 case "Diaria":
                                     setValueP(35);
+                                    setValueBox(35);
                                 break;
                                 default:
                                     break;
@@ -99,6 +105,15 @@ export default function Pagament (){
             }
         }
     }, [update]);
+
+
+    useEffect(()=>{
+        if(valueP && formatPag === "Cartão de crédito"){
+            setValueP((valueP*0.0531)+valueP);
+        }else{
+            setValueP(valueBox);
+        }
+    },[formatPag])
 
     return(
         <main className="bg-[#697565] w-full h-[100vh] flex relative" >
@@ -133,7 +148,7 @@ export default function Pagament (){
                 ):(
                     <React.Fragment>
                         <div className="max-w-md mt-10" >
-                            <SelectInput name={formatPag} value={formatPag} id="1" required onchange={handleFormaPag} options={["Cartão de crédito", "Pix", "Duas vezes, parcelado com a igreja", "Dinheiro em mãos"]} placeholder="" erro />
+                            <SelectInput name={formatPag} value={formatPag} id="1" required onchange={handleFormaPag} options={["Pix", "Cartão de crédito", "Duas vezes, parcelado com a igreja", "Dinheiro em mãos"]} placeholder="" erro />
                         </div>
                         {formatPag === "Cartão de crédito"?(
                             <div className="w-[90%] md:w-auto" >
