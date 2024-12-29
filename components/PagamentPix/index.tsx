@@ -92,7 +92,7 @@ export const PagamentPix = ({ idRegistered, value, number, twoMethod, Start, End
       </h2>
       <form onSubmit={handleSubmit} className="text-[#ECDFCC]">
         <h2 className="text-[20px]">Envie para esse pix:</h2>
-        <h2 className="text-[20px] text-white font-bold mb-2">89988258259</h2>
+        <h2 className="text-[20px] text-white font-bold mb-2">1292c789-caa9-4002-9883-c296c051e15e</h2>
         <p>
           Depois do envio coloque o comprovante nesse campo abaixo, para que possamos comprovar sua
           inscrição.
