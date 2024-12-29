@@ -43,6 +43,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
       );
 
+      console.log(res);
+
       return res.status(200).json({
         id: response.data.id,
         status: response.data.status,
