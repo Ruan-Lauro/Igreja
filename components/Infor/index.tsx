@@ -69,7 +69,7 @@
         return (
         <div className="inforUser max-w-[450px]" >
             <div className="flex justify-between" >
-                <div className="flex mr-5 items-center gap-2" >
+                <div className="w-[70%] flex mr-2 items-center gap-2" >
                     <Image
                         src={user.imgUser || perfil}
                         alt="perfil"
