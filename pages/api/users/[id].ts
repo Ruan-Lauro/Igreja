@@ -23,15 +23,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     try {
      
-      const existingUser = await prisma.user.findFirst({
-        where: {
-          email,
-          id: { not: Number(id) },
-        },
-      });
-
-      if (existingUser) {
-        return res.status(400).json({ error: 'E-mail já está em uso por outro usuário' });
+      if(email){
+        const existingUser = await prisma.user.findFirst({
+          where: {
+            email,
+            id: { not: Number(id) },
+          },
+        });
+  
+        if (existingUser) {
+          return res.status(400).json({ error: 'E-mail já está em uso por outro usuário' });
+        }
       }
 
       await prisma.user.update({

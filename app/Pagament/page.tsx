@@ -125,7 +125,7 @@ export default function Pagament (){
              {loading?(
                 <Loading/>
              ):null}
-             <Menu value="3" />
+             <Menu value="3" isAdmin={user?.isAdmin || false}/>
              <div className="w-full flex flex-col overflow-y-auto items-center md:ml-40" >
                 <div className="w-[90%] flex flex-col mt-20 md:mt-0 text-[#ECDFCC] md:w-auto" >
                     <h2 className="mt-5 text-[30px] md:text-[40px] font-bold" >Formato de pagamento</h2>

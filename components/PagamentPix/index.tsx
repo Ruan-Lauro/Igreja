@@ -107,7 +107,7 @@ export const PagamentPix = ({ idRegistered, value, number, twoMethod, Start, End
             id="cardNumber"
             onChange={handleFileChange}
             className="block w-full bg-[#ECDFCC] text-[#556b5d] rounded-md shadow-sm border border-gray-300 text-lg px-3 py-2 tracking-widest"
-          />
+            />
         </div>
 
         <button

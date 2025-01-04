@@ -6,6 +6,7 @@ import home from "@/public/images/home.png";
 import perfil from "@/public/images/user.png";
 import event from "@/public/images/event.png";
 import pagament from "@/public/images/pagament.png";
+import admin from "@/public/images/admin.png";
 import menu from "@/public/images/menu.png";
 import Link from "next/link";
 import { useState } from "react";
@@ -14,9 +15,10 @@ import { removeCookie } from "@/lib/cookie";
 
 type menu = {
     value: string;
+    isAdmin?: boolean;
 }
 
-export const Menu = ({value}:menu) =>{
+export const Menu = ({value, isAdmin}:menu) =>{
 
     const [menuL, setMenuL] = useState(false);
 
@@ -26,11 +28,11 @@ export const Menu = ({value}:menu) =>{
             <Image
                     src={logoimg}
                     alt="Logo"
-                    style={{ objectFit: "contain", marginBottom:"60px", marginTop:"20px" }}
+                    style={{ objectFit: "contain", marginBottom:"50px", marginTop:"20px" }}
                     width={130}
                     height={130}
                 />
-                <div className="flex flex-col items-center h-[370px] justify-between" >
+                <div className="flex flex-col items-center h-[415px] justify-between" style={isAdmin?{height:"415px"}:{height:"370px"}} >
                         <Link href="Home">
                             {value == "1"?(
                                 <div className="flex flex-col items-center gap-2 w-[45px] h-[45px]" >
@@ -103,29 +105,55 @@ export const Menu = ({value}:menu) =>{
                             </div>
                             )}
                         </Link>
+                        {isAdmin?(
+                            <Link href="InforUsers">
+                                {value == "5"?(
+                                    <div className="flex flex-col items-center gap-2 w-[45px] h-[45px]" >
+                                    <Image
+                                        src={admin}
+                                        alt="icone"
+                                        width={45}
+                                        height={45}
+                                    />
+                                    <p className="text-[16px] font-bold" >Admin</p>
+                                </div>
+                                ):(
+                                    <div className="flex flex-col items-center gap-2 w-[45px] h-[45px]" >
+                                    <Image
+                                        src={admin}
+                                        alt="icone"
+                                        className="hover:w-[45px] hover:h-[45px]"
+                                        width={35}
+                                        height={35}
+                                    />
+                                    <p className="text-[16px] font-bold" >Admin</p>
+                                </div>
+                                )}
+                            </Link>
+                        ):null}
                         <Link href="Register">
-                            {value == "4"?(
-                                <div className="flex flex-col items-center gap-2 w-[45px] h-[45px]" >
-                                <Image
-                                    src={event}
-                                    alt="icone"
-                                    width={45}
-                                    height={45}
-                                />
-                                <p className="text-[16px] font-bold" >Evento</p>
-                            </div>
-                            ):(
-                                <div className="flex flex-col items-center gap-2 w-[45px] h-[45px]" >
-                                <Image
-                                    src={event}
-                                    alt="icone"
-                                    className="hover:w-[45px] hover:h-[45px]"
-                                    width={35}
-                                    height={35}
-                                />
-                                <p className="text-[16px] font-bold" >Evento</p>
-                            </div>
-                            )}
+                                {value == "4"?(
+                                    <div className="flex flex-col items-center gap-2 w-[45px] h-[45px]" >
+                                    <Image
+                                        src={event}
+                                        alt="icone"
+                                        width={40}
+                                        height={40}
+                                    />
+                                    <p className="text-[16px] font-bold" >Evento</p>
+                                </div>
+                                ):(
+                                    <div className="flex flex-col items-center gap-2 w-[45px] h-[45px]" >
+                                    <Image
+                                        src={event}
+                                        alt="icone"
+                                        className="hover:w-[45px] hover:h-[45px]"
+                                        width={35}
+                                        height={35}
+                                    />
+                                    <p className="text-[16px] font-bold" >Evento</p>
+                                </div>
+                                )}
                         </Link>
                 </div>
           </div>
@@ -163,6 +191,11 @@ export const Menu = ({value}:menu) =>{
                 <Link href="Register" >
                     <p className="text-[18px]" >Evento</p>
                 </Link>
+                {isAdmin?(
+                    <Link href="InforUsers" >
+                        <p className="text-[18px]" >Admin</p>
+                    </Link>
+                ):null}
                 <p className="text-[18px] cursor-pointer" onClick={()=>{
                         removeCookie("users");
                         redirect("/"); 

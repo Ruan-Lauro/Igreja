@@ -6,6 +6,7 @@ interface useGetPagament {
 }
 
 export type pagament = {
+    id: number;
     amount: number;
     method: string;
     quantity: number;

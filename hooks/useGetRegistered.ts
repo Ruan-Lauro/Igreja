@@ -1,7 +1,8 @@
 import axios from "axios";
 import api from "../lib/api";
 
-type registered = {
+export type registered = {
+    birthDatetoLocaleDateString(arg0: string, arg1: { weekday: string; year: string; month: string; day: string; }): import("react").ReactNode;
     id: number;
     phoneNumber: string;
     birthDate: Date; 

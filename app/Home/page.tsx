@@ -1,3 +1,5 @@
+"use client"
+
 import { Menu } from "@/components/Menu";
 import Image from "next/image";
 import img from "@/public/images/acam.webp";
@@ -6,10 +8,42 @@ import local from "@/public/images/local.png";
 import pers from "@/public/images/pers.png";
 import bb from "@/public/images/bb.png";
 import one from "@/public/images/one.png";
+import { useEffect, useState } from "react";
+import { users } from "@/hooks/useGetUsers";
+import { getCookie } from "@/lib/cookie";
+import { Loading } from "@/components/Loading";
+
 export default function Home (){
+
+    const [user, setUser] = useState<users>();
+        const [loading, setLoading] = useState(false);
+        const [update, setUpdate] = useState(false);
+    
+        useEffect(()=>{
+            setUpdate(!update);
+          },[])
+        
+          useEffect(() => {
+            const element = getCookie("users");
+            if (element) {
+                try {
+                    const parsedUser = element;
+                    if (parsedUser && typeof parsedUser === "object") {
+                        setLoading(true);
+                        setUser(parsedUser);
+                    }
+                } catch (error) {
+                    console.error("Erro ao parsear o JSON:", error);
+                }
+            }
+        }, [update]);
+
     return(
         <main className="bg-[#697565] w-full min-h-[100vh] flex relative" >
-            <Menu value="1" />
+            {loading?(
+                <Loading/>
+            ):null}
+            <Menu value="1" isAdmin={user?.isAdmin || false}/>
             <div className="w-full flex flex-col overflow-y-auto items-center text-[#ECDFCC] md:ml-[130px]" >
                 <div className="mb-5 w-full h-[700px] relative" >
                     <Image  src={img} objectFit="cover" alt="icone" layout="fill" className="absolute z-1 "/>

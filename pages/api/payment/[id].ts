@@ -21,12 +21,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.status(500).json({ error: 'Failed to fetch payment', details: error });
       }
     } else if (req.method === 'PUT') {
-      const { amount, method, quantity, isPaid } = req.body;
+      const { amount, method, quantity, isPaid, resAdmin } = req.body;
   
       try {
         const updatedPayment = await prisma.payment.update({
           where: { id: Number(id) },
-          data: { amount, method, quantity, isPaid },
+          data: { amount, method, quantity, isPaid, resAdmin },
         });
         res.status(200).json(updatedPayment);
       } catch (error) {

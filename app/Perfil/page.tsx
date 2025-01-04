@@ -47,7 +47,7 @@ export default function Pagament() {
   };
 
   useEffect(()=>{
-      setUpdate(!update);
+    setUpdate(!update);
   },[])
 
   useEffect(() => {
@@ -56,6 +56,7 @@ export default function Pagament() {
     if (element) {
       try {
         const parsedUser = element;
+        console.log(parsedUser);
         if (parsedUser && typeof parsedUser === "object") {
           setName(parsedUser.name);
           setEmail(parsedUser.email);
@@ -123,7 +124,6 @@ export default function Pagament() {
       res.then(v=>{
         if(v === "User edited"){
           setLoading(false);
-          setUpdate(!update);
           updateLocalStorage();
         }
       });
@@ -137,7 +137,6 @@ export default function Pagament() {
       res.then(v=>{
         if(v === "User edited"){
           setLoading(false);
-          setUpdate(!update);
           updateLocalStorage();
         }
       });
@@ -183,16 +182,17 @@ export default function Pagament() {
     }
   };
 
-  const updateLocalStorage = () =>{
+  const updateLocalStorage = () => {
     const listUser = authenticationUsers();
-    listUser.then(res=>{
-      res.find(val=> val.id === user?.id);
-      updateCookie("users", res[0]);
-      console.log(res[0])
+    listUser.then(res => {
+      const v = res.filter(val => val.id === user?.id);
+      updateCookie("users", v[0]);
+      setUser(v[0]); 
       setLoading(false);
       setUpdate(!update);
-    })
-  }
+    });
+  };
+  
 
   return (
     <main className="bg-[#697565] w-full h-[100vh] flex relative">
@@ -204,7 +204,7 @@ export default function Pagament() {
           }} email={email} autheConfirm={handleConfirmEmail} />
         </div>
         ):null}
-      <Menu value="2" />
+      <Menu value="2" isAdmin={user?.isAdmin || false}/>
       <div className="w-full flex flex-col overflow-y-auto items-center md:ml-40 mt-20">
         <div className="relative border-[#ECDFCC] border-4 rounded-[100%] w-40 h-40 z-[1]">
           <Image  src={profileImage} alt="icone" layout="fill" objectFit="cover" className="rounded-[100%]"/>
@@ -222,7 +222,7 @@ export default function Pagament() {
             onChange={handleImageChange}
           />
         </div>
-        <p className="text-[#ECDFCC] mt-5 mb-3" >Clique no campo e edite seu nome, o seu e-mail ou na imagem de câmera.</p>
+        <p className="text-[#ECDFCC] mt-5 mb-3 w-[80%] md:w-auto" >Clique no campo e edite seu nome, o seu e-mail ou na imagem de câmera.</p>
         <form onSubmit={handleForm} className="flex flex-col items-center w-[80%] md:w-[600px] gap-3">
           <InputTwo
             name={name}

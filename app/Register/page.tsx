@@ -343,7 +343,7 @@ export default function Register() {
           {loading?(
             <Loading/>
           ):null}
-           <Menu value="4" />
+           <Menu value="4" isAdmin={user?.isAdmin || false}/>
            <div className="w-full flex flex-col items-center justify-center mt-20 md:mt-5 md:ml-[120px]" >
                 <div className="w-[90%] xl:w-[70%] flex flex-col mt-10 text-[#ECDFCC] md:mt-5" >
                     <h2 className="text-[30px] text-center xl:text-start xl:text-[40px] font-bold" >{registered?"Inscrição feita":"Faça sua inscrição"} para o acampamento 2025</h2>
