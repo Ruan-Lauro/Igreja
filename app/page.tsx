@@ -142,7 +142,7 @@ export default function Home() {
   //Initiate the request
 
   const getUsers = async () =>{
-    let element = await authenticationUsers();
+    const element = await authenticationUsers();
     return element;
   }
 
