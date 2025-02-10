@@ -1,6 +1,6 @@
 "use client"
 import Image from "next/image";
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import logoimg from "@/public/images/cor 2.png";
 import { AuthInput } from "@/components/input";
 import {useLogin} from "@/hooks/useLogin";
@@ -10,6 +10,7 @@ import { redirect } from 'next/navigation'
 import { Loading } from "@/components/Loading";
 
 import { setCookie } from "@/lib/cookie";
+import { useGetUsers } from "@/hooks/useGetUsers";
 
 export default function Home() {
 
@@ -33,6 +34,7 @@ export default function Home() {
   //hooks
   const {authenticationLogin} = useLogin();
   const {authenticationAddUsers} = usePostUsers();
+  const {authenticationUsers} = useGetUsers();
 
   //Erro of the login and register
   const [erro, setErro] = useState("");
@@ -136,6 +138,21 @@ export default function Home() {
       }
     })
   }
+
+  //Initiate the request
+
+  const getUsers = async () =>{
+    let element = await authenticationUsers();
+    return element;
+  }
+
+  useEffect(() => {
+    const fetchUsers = () => {
+      getUsers(); 
+    };
+  
+    fetchUsers();
+  }, []);
 
 
   return (

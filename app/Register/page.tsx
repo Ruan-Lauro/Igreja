@@ -259,6 +259,9 @@ export default function Register() {
         if(value === "Create Registered!!"){
             setLoading(false);
             redirect("/Pagament/")
+        }else{
+          setLoading(false)
+          setErroRegister(value);
         }
     })
     
@@ -323,6 +326,7 @@ export default function Register() {
         userId: user?.id,
         sex: sex,
         numberEmergency: numberEmergency,
+        
     }
 
     const res = authenticationPutRegistered(registerUser);
@@ -339,7 +343,7 @@ export default function Register() {
   }
 
     return(
-        <main className="bg-[#697565] h-full xl:h-[100vh] w-full flex relative " >
+        <main className="bg-[#697565] h-full w-full flex relative " >
           {loading?(
             <Loading/>
           ):null}
@@ -347,9 +351,9 @@ export default function Register() {
            <div className="w-full flex flex-col items-center justify-center mt-20 md:mt-5 md:ml-[120px]" >
                 <div className="w-[90%] xl:w-[70%] flex flex-col mt-10 text-[#ECDFCC] md:mt-5" >
                     <h2 className="text-[30px] text-center xl:text-start xl:text-[40px] font-bold" >{registered?"Inscrição feita":"Faça sua inscrição"} para o acampamento 2025</h2>
-                    <p className="xl:text-[18px] text-justify mt-5 xl:mt-0" >Responda e analise se está tudo correto. Criança de 6 anos para baixo paga 2 reais (valor do seguro), se essa é sua condição, então encolha o maternal; se você tem de 7 a 10 anos, então escolha o plano infantil; se você está acima de 10 anos, então escolha o plano normal; se você mora a mais de 100km de distância, então escolha o plano distante; e por fim, se você só quer ir por um dia, escolha a diária de 35 reais.</p>
+                    <p className="xl:text-[18px] text-justify mt-5 xl:mt-0" >Responda e analise se está tudo correto. Criança de 6 anos para baixo paga 2 reais (valor do seguro), se essa é sua condição, então encolha o maternal; se você tem de 7 a 10 anos, então escolha o plano infantil; se você está acima de 10 anos, então escolha o plano normal; se você mora a mais de 100km de distância, então escolha o plano distante; e por fim, se você só quer ir por um dia, escolha a diária de 35 reais. Não pode usar o mesmo CPF em duas contas ou número de telefone.</p>
                 </div>
-                <form onSubmit={!registered?handleFormRegister:handleEditFormRegister} className="w-[90%] xl:w-[70%] mt-[45px] flex flex-col" >
+                <form onSubmit={!registered?handleFormRegister:handleEditFormRegister} className="w-[90%] xl:w-[70%] mt-[25px] flex flex-col" >
                     <div className="md:grid md:grid-cols-2 xl:flex items-center justify-between xl:gap-5 gap-2 w-full flex xl:flex-row flex-col" >
                         <InputTwo value={cpf} name={cpf} placeholder="CPF" onchange={handleCpf} required type="number" erro={false} id="1"  />
                         <InputTwo value={phoneNumber} name={phoneNumber} placeholder="Telefone" onchange={handlePhoneNumber} required type="number" erro={false} id="2" />

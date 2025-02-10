@@ -57,10 +57,14 @@ export const usePostRegistered = (): useAddRegistered => {
       if (axios.isAxiosError(error)) {
         
         if (error.response && error.response.status === 400) {
-          
-          return "user erro"
+          console.log(error.response.data)
+          if(typeof error.response.data.error === "string"){
+            return error.response.data.error;
+          }else{
+            return "Algum campo errado"
+          }
         } else {
-          return "servidor erro"
+          return "servidor erro";
         }
       } else {
        
