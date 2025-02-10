@@ -8,6 +8,7 @@ import event from "@/public/images/event.png";
 import pagament from "@/public/images/pagament.png";
 import admin from "@/public/images/admin.png";
 import menu from "@/public/images/menu.png";
+import exit from "@/public/images/exit.png"
 import Link from "next/link";
 import { useState } from "react";
 import { redirect } from "next/navigation";
@@ -28,11 +29,11 @@ export const Menu = ({value, isAdmin}:menu) =>{
             <Image
                     src={logoimg}
                     alt="Logo"
-                    style={{ objectFit: "contain", marginBottom:"50px", marginTop:"20px" }}
+                    style={{ objectFit: "contain", marginBottom:"30px", marginTop:"20px" }}
                     width={130}
                     height={130}
                 />
-                <div className="flex flex-col items-center h-[415px] justify-between" style={isAdmin?{height:"415px"}:{height:"370px"}} >
+                <div className="flex flex-col items-center h-[415px] justify-between" style={isAdmin?{height:"500px"}:{height:"475px"}} >
                         <Link href="Home">
                             {value == "1"?(
                                 <div className="flex flex-col items-center gap-2 w-[45px] h-[45px]" >
@@ -105,6 +106,21 @@ export const Menu = ({value, isAdmin}:menu) =>{
                             </div>
                             )}
                         </Link>
+
+                        <div className="flex flex-col items-center gap-2 w-[45px] h-[45px] cursor-pointer" onClick={()=>{
+                                removeCookie("users");
+                                redirect("/"); 
+                        }} >
+                            <Image
+                                src={exit}
+                                alt="icone"
+                                className="hover:w-[45px] hover:h-[45px]"
+                                width={35}
+                                height={35}
+                            />
+                            <p className="text-[16px] font-bold" >Sair</p>
+                        </div>
+                        
                         {isAdmin?(
                             <Link href="InforUsers">
                                 {value == "5"?(
@@ -133,7 +149,7 @@ export const Menu = ({value, isAdmin}:menu) =>{
                         ):null}
                         <Link href="Register">
                                 {value == "4"?(
-                                    <div className="flex flex-col items-center gap-2 w-[45px] h-[45px]" >
+                                    <div className="flex flex-col items-center gap-2 w-[45px] h-[45px] " >
                                     <Image
                                         src={event}
                                         alt="icone"
@@ -143,7 +159,7 @@ export const Menu = ({value, isAdmin}:menu) =>{
                                     <p className="text-[16px] font-bold" >Evento</p>
                                 </div>
                                 ):(
-                                    <div className="flex flex-col items-center gap-2 w-[45px] h-[45px]" >
+                                    <div className="flex flex-col items-center gap-2 w-[45px] h-[45px] " >
                                     <Image
                                         src={event}
                                         alt="icone"
@@ -155,6 +171,7 @@ export const Menu = ({value, isAdmin}:menu) =>{
                                 </div>
                                 )}
                         </Link>
+                        
                 </div>
           </div>
           <div className="md:hidden w-full flex items-center justify-between pl-2 pr-2" style={menuL?{display:"none"}:{}}>

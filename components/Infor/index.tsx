@@ -10,6 +10,8 @@
     import React, { useState } from "react";
     import { useDeletePagament } from "@/hooks/useDeletePagament";
     import { putPagament, usePutPagament } from "@/hooks/usePutPagament";
+    import pdf from '@/public/images/pdf.png';
+import Link from "next/link";
 
     export type AuthInfor = {
         user:users;
@@ -30,10 +32,8 @@
         const {authenticationDeletePagament} = useDeletePagament();
         const {authenticationPutPagament} = usePutPagament();
         let pagamentValue = "";
-
         if (pagament[0]) {
             if (pagament[0]?.twoMethod === "Duas vezes") {
-                console.log("Cai aqui")
                 if (pagament[0]?.isPaid && pagament[1]?.isPaid) {
                     pagamentValue = "Pago";
                 } else if (pagament[0]?.resAdmin==="Em análise..." || pagament[1]?.resAdmin==="Em análise...") {
@@ -80,7 +80,7 @@
                     <p><span>{user.name}</span></p>
                 </div>
                 <div className="flex gap-2 items-center">
-                    <p><span className="flex text-center" style={pagamentValue==="Pago"?{color:"green"}:{color:"#ff0000"}} >{pagamentValue}</span></p>
+                    <p><span className="flex text-center" style={pagamentValue==="Pago"?{color:"green"}:pagamentValue==="Não pago"?{color:"#ff0000"}:{color:"orange"}} >{pagamentValue}</span></p>
                     <Image
                         src={seta}
                         alt="icTwo"
@@ -152,7 +152,7 @@
                                 width={300}
                                 height={300}
                                 style={{alignSelf:"center"}}
-                            />
+                                />
                         </div>
                     ) : null}
                     {pagament[0].resAdmin === "Em análise..."?(
@@ -248,14 +248,29 @@
                             {pagament[0]?.method === "Pix" ? (
                                 <div className="flex flex-col" >
                                 <p>Comprovante:</p>
-                                    <Image
-                                    src={pagament[0]?.checking}
-                                    objectFit="cover"
-                                    alt="icone"
-                                    width={300}
-                                    height={300}
-                                    style={{alignSelf:"center"}}
-                                />
+                                    
+                                    {pagament[0].checking.includes('pdf')?(
+                                        <Link href={pagament[0].checking}>
+                                            <Image
+                                                src={pdf}
+                                                objectFit="cover"
+                                                alt="icone"
+                                                width={100}
+                                                height={100}
+                                                style={{alignSelf:"center"}}
+                                            />
+                                        </Link>
+                                    ):(
+                                        <Image
+                                        src={pagament[0]?.checking}
+                                        objectFit="cover"
+                                        alt="icone"
+                                        width={300}
+                                        height={300}
+                                        style={{alignSelf:"center"}}
+                                        />
+                                    )}
+                                    
                             </div>
                             ) : null}
                             {pagament[0].resAdmin === "Em análise..."?(

@@ -153,7 +153,7 @@ export default function Pagament (){
                 ):(
                     <React.Fragment>
                         <div className="max-w-md mt-10" >
-                            <SelectInput name={formatPag} value={formatPag} id="1" required onchange={handleFormaPag} options={["Pix", "Cartão de crédito", "Duas vezes, parcelado com a igreja", "Dinheiro em mãos"]} placeholder="" erro />
+                            <SelectInput name={formatPag} value={formatPag} id="1" required onchange={handleFormaPag} options={["Pix", "Cartão de crédito", "Dinheiro em mãos"]} placeholder="" erro />
                         </div>
                         {formatPag === "Cartão de crédito"?(
                             <div className="w-[90%] md:w-auto" >

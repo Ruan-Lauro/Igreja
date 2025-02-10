@@ -10,6 +10,7 @@ import { redirect } from 'next/navigation'
 import { Loading } from "@/components/Loading";
 
 import { setCookie } from "@/lib/cookie";
+import Link from "next/link";
 
 export default function Home() {
 
@@ -75,6 +76,7 @@ export default function Home() {
       }; 
       const resultLogin = authenticationLogin(loginRes);
       resultLogin.then(value=>{
+        console.log(value)
         if(typeof value == "string"){
           setErro(value);
           setLoading(false)
@@ -175,8 +177,13 @@ export default function Home() {
             <h2 className="text-[48px] text-[#3C3D37] font-bold mt-[80px] mb-[60px]" >Login</h2>
             <form action="" className="w-[70%] flex flex-col items-center gap-[45px]" onSubmit={handleForm}>
                 <AuthInput erro={erro == ""? false: true} name={email} onchange={handleEmail} placeholder="E-mail" type="text" value={email} id="1" required />
-                <AuthInput erro={erro == ""? false: true} name={password} onchange={handlePassword} placeholder="Senha" type="password" value={password} id="2" required />
-                <button className="bg-[#3C3D37] w-[173px] h-[58px] rounded-[10px] text-[#ECDFCC] font-bold mt-[60px]">
+                <div className="w-full" >
+                  <AuthInput erro={erro == ""? false: true} name={password} onchange={handlePassword} placeholder="Senha" type="password" value={password} id="2" required />
+                  {/* <Link href={""} >
+                    <p className="text-[#3C3D37]/80 mt-[10px] hover:underline" >Esqueceu a senha?</p>
+                  </Link> */}
+                </div>
+                <button className="bg-[#3C3D37] w-[173px] h-[58px] rounded-[10px] text-[#ECDFCC] font-bold mt-[35px]">
                   LOGIN
                 </button>
                 <p className="text-[#3C3D37]/80 mt-[-30px] xl:hidden" onClick={()=>{

@@ -35,6 +35,7 @@ export const useLogin = (): useLogin => {
         }else if(error.status == 500){
             return "Erro Geral"
         }else{
+          console.log(error)
             return "Erro no sistema"
         }
         

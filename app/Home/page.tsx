@@ -26,10 +26,11 @@ export default function Home (){
           useEffect(() => {
             const element = getCookie("users");
             if (element) {
+                setLoading(true);
                 try {
                     const parsedUser = element;
                     if (parsedUser && typeof parsedUser === "object") {
-                        setLoading(true);
+                        setLoading(false);
                         setUser(parsedUser);
                     }
                 } catch (error) {

@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '../../../lib/prisma';
 import initCors from '../../../lib/cors';
+import bcrypt from 'bcrypt';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   await initCors(req, res);
@@ -36,9 +37,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
       }
 
+       const hashedPassword = await bcrypt.hash(password, 10);
+
       await prisma.user.update({
         where: { id: Number(id) },
-        data: { name, email, password, isAdmin, imgUser },
+        data: { name, email, password:hashedPassword, isAdmin, imgUser },
       });
 
       res.status(200).json('User edited');
