@@ -10,7 +10,6 @@ import { redirect } from 'next/navigation'
 import { Loading } from "@/components/Loading";
 
 import { setCookie } from "@/lib/cookie";
-import Link from "next/link";
 
 export default function Home() {
 

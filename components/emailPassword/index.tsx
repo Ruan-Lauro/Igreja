@@ -1,6 +1,6 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent,  useState } from "react";
 import { AuthInput } from "../input";
-import { usePostConfirmEmail } from "@/hooks/usePostConfirmEmail";
+// import { usePostConfirmEmail } from "@/hooks/usePostConfirmEmail";
 import React from "react";
 
 type email = {
@@ -8,7 +8,7 @@ type email = {
     exitConfirm: () => void;
 }
 
-export const EmailPassword = ({ autheConfirm, exitConfirm}:email) => {
+export const EmailPassword = ({ exitConfirm, autheConfirm}:email) => {
 
     const [codEmail, setCodEmail] =  useState("");
     const [erroR, setErroR] = useState("");
@@ -23,7 +23,9 @@ export const EmailPassword = ({ autheConfirm, exitConfirm}:email) => {
     const handleEmail = (e: FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
         if(codEmail){
-            
+            setErroR("");
+            setInfoCodEmail(true);
+            autheConfirm();
         }
     };
 
