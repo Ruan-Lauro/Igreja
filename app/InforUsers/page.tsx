@@ -14,11 +14,11 @@ import React from "react";
 import { Loading } from "@/components/Loading";
 import Pagination from "@/components/Pagination";
 
-type totalPagament = {
-    paid: number, 
-    unpaid: number,
-    beconfirmed: number
-}
+// type totalPagament = {
+//     paid: number, 
+//     unpaid: number,
+//     beconfirmed: number
+// }
 
 const InforUsers = () => {
     const [user, setUser] = useState<users>();
@@ -37,7 +37,7 @@ const InforUsers = () => {
     const [totalUsers, setTotalUsers] = useState<number>(0);
     const [totalRegistered, setTotalRegistered] = useState<number>(0);
     const [listUserWithoutRegistered, setListUserWithoutRegistered] = useState<users[]>();
-    const [totalPagament, setTotalPagament] = useState<totalPagament>();
+    // const [totalPagament, setTotalPagament] = useState<totalPagament>();
 
     const handleSearch = (e: ChangeEvent<HTMLInputElement>): void => {
         setSearch(e.currentTarget.value);
