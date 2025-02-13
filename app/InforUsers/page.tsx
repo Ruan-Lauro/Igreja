@@ -14,6 +14,11 @@ import React from "react";
 import { Loading } from "@/components/Loading";
 import Pagination from "@/components/Pagination";
 
+type totalPagament = {
+    paid: number, 
+    unpaid: number,
+    beconfirmed: number
+}
 
 const InforUsers = () => {
     const [user, setUser] = useState<users>();
@@ -27,6 +32,12 @@ const InforUsers = () => {
     const { authenticationUsers } = useGetUsers();
     const { authenticationRegistered } = useGetRegistered();
     const { authenticationGetPagament } = useGetPagament();
+
+    //Chart analysis
+    const [totalUsers, setTotalUsers] = useState<number>(0);
+    const [totalRegistered, setTotalRegistered] = useState<number>(0);
+    const [listUserWithoutRegistered, setListUserWithoutRegistered] = useState<users[]>();
+    const [totalPagament, setTotalPagament] = useState<totalPagament>();
 
     const handleSearch = (e: ChangeEvent<HTMLInputElement>): void => {
         setSearch(e.currentTarget.value);
@@ -79,7 +90,25 @@ const InforUsers = () => {
                         return null;
                     })
                     .filter((item): item is AuthInfor => item !== null).sort((a, b) => a.user.name.localeCompare(b.user.name));
+                
+                const listUsers: users[] = []  
+                users.map((user) => {
+                    const regis = registered.find((r) => r.userId === user.id);
+                    if (!regis) {
+                        listUsers.push(user);
+                    }
+                })
 
+                if(listUsers.length > 0){
+                    setListUserWithoutRegistered(listUsers);
+                };
+                
+                if(userV.length){
+                    setTotalUsers(userV.length);
+                };
+                if(registered.length){
+                    setTotalRegistered(registered.length);
+                };
                 setList(listNew);
             } catch (error) {
                 console.error("Erro ao carregar dados:", error);
@@ -135,6 +164,28 @@ const InforUsers = () => {
                     ) : (
                         <p>Nenhum dado encontrado.</p>
                     )}
+                </div>
+                <div className="mt-5" >
+                    <h3 className="text-[30px] mt-5 font-bold" >Análise geral</h3>
+                    <div className="mt-5 text-4" >
+                        <p>Quantidade de usuários: <span className="font-bold" >{totalUsers} pessoas</span></p>
+                        <p>Quantidade de pessoas cadastradas: <span className="font-bold" >{totalRegistered} pessoas</span></p>
+                        <div className="bg-[#3C3D37] p-4 mt-5" >
+                            <p className="text-5 font-bold" >Pessoas que não fizeram seu cadastro: {totalUsers - totalRegistered}</p>
+                            {listUserWithoutRegistered?(
+                                <React.Fragment>
+                                    {listUserWithoutRegistered.map(use=>(
+                                        <div className="border-b-2 border-[#ECDFCC] mt-3 pb-3" key={use.id} >
+                                            <p className="" key={use.id}>Nome: {use.name}</p>
+                                            <p className="" key={use.email}>E-mail: {use.email}</p>
+                                        </div>
+                                    ))}
+                                </React.Fragment>
+                            ):(
+                                <p>Nenhum caso</p>
+                            )}
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
