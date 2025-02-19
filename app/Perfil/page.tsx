@@ -12,6 +12,11 @@ import { EmailConfirm } from "@/components/EmailConfirm";
 import { usePutUser } from "@/hooks/usePutUser";
 import { getCookie, updateCookie } from "@/lib/cookie";
 
+type UpdateUserResponse = {
+  message: string;
+  user: users;
+};
+
 export default function Pagament() {
 
   const [loading, setLoading] = useState(false);
@@ -115,15 +120,15 @@ export default function Pagament() {
       const img = await uploadImage(profile);
       const userL = {
         imgUser: img,
-        name,
-        email,
         id: user.id
       }
-
-      const res = authenticationPutUser(userL)
-      res.then(v=>{
-        if(v === "User edited"){
+      const res:Promise<UpdateUserResponse|string> = authenticationPutUser(userL);
+     
+      res.then((v)=>{
+      
+        if(typeof v !== "string" && v.message === "User edited"){
           setLoading(false);
+          setProfile(undefined);
           updateLocalStorage();
         }
       });
@@ -133,9 +138,9 @@ export default function Pagament() {
         id: user.id
       }
 
-      const res = authenticationPutUser(userL)
+      const res:Promise<UpdateUserResponse|string> = authenticationPutUser(userL)
       res.then(v=>{
-        if(v === "User edited"){
+        if(typeof v !== "string" && v.message === "User edited"){
           setLoading(false);
           updateLocalStorage();
         }
@@ -157,11 +162,13 @@ export default function Pagament() {
           id: user.id
         }
   
-        const res = authenticationPutUser(userL)
+        const res:Promise<UpdateUserResponse|string> = authenticationPutUser(userL)
         res.then(v=>{
-          if(v === "User edited"){
+          if(typeof v !== "string" && v.message === "User edited"){
             setLoading(false);
+            setProfile(undefined);
             updateLocalStorage()
+
           }
         });
       }else{
@@ -171,9 +178,9 @@ export default function Pagament() {
           id: user.id
         }
   
-        const res = authenticationPutUser(userL)
+        const res:Promise<UpdateUserResponse|string> = authenticationPutUser(userL)
         res.then(v=>{
-          if(v === "User edited"){
+          if(typeof v !== "string" && v.message === "User edited"){
             setLoading(false);
             updateLocalStorage()
           }
@@ -248,9 +255,9 @@ export default function Pagament() {
             <button className="bg-[#3C3D37] hover:bg-black/40 w-[140px] h-[50px] rounded-[10px] text-[#ECDFCC] font-bold mt-[20px] self-center  mb-2">
               EDITAR
             </button>
-            {name !== user?.name || email !== user.email?(
+            {name !== user?.name || email !== user.email || profile?(
               <button type="reset" onClick={()=>{
-  
+                setUpdate(!update);
                 setLoading(false);
               }} className="bg-[#3C3D37] hover:bg-black/40 w-[140px] h-[50px] rounded-[10px] text-[#ECDFCC] font-bold mt-[20px] self-center  mb-2">
               CANCELAR

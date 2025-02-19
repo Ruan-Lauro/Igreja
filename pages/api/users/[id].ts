@@ -20,33 +20,45 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(500).json({ error: 'Failed to fetch user', details: error });
     }
   } else if (req.method === 'PUT') {
+    const { id } = req.query; 
     const { name, email, password, isAdmin, imgUser } = req.body;
 
     try {
-     
-      if(email){
-        const existingUser = await prisma.user.findFirst({
-          where: {
-            email,
-            id: { not: Number(id) },
-          },
-        });
-  
-        if (existingUser) {
-          return res.status(400).json({ error: 'E-mail já está em uso por outro usuário' });
+        if (!id) {
+            return res.status(400).json({ error: 'ID is required' });
         }
-      }
 
-       const hashedPassword = await bcrypt.hash(password, 10);
+        if (email) {
+            const existingUser = await prisma.user.findFirst({
+                where: {
+                    email,
+                    id: { not: Number(id) },
+                },
+            });
 
-      await prisma.user.update({
-        where: { id: Number(id) },
-        data: { name, email, password:hashedPassword, isAdmin, imgUser },
-      });
+            if (existingUser) {
+                return res.status(400).json({ error: 'E-mail já está em uso por outro usuário' });
+            }
+        }
 
-      res.status(200).json('User edited');
+        const hashedPassword = password ? await bcrypt.hash(password, 10) : undefined;
+
+        const updatedUser = await prisma.user.update({
+            where: { id: Number(id) },
+            data: {
+                name,
+                email,
+                ...(hashedPassword && { password: hashedPassword }), 
+                isAdmin,
+                imgUser
+            },
+        });
+
+        return res.status(200).json({ message: 'User edited', user: updatedUser });
+
     } catch (error) {
-      res.status(500).json({ error: 'Failed to update user', details: error });
+        console.error('Update error:', error);
+        return res.status(500).json({ error: 'Failed to update user', details: error });
     }
   } else if (req.method === 'DELETE') {
     try {

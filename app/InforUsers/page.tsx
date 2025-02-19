@@ -20,7 +20,6 @@ import Pagination from "@/components/Pagination";
 //     beconfirmed: number
 // }
 
-
 const InforUsers = () => {
     const [user, setUser] = useState<users>();
     const [loading, setLoading] = useState<boolean>(true);

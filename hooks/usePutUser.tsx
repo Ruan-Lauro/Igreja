@@ -31,7 +31,7 @@ export const usePutUser = (): usePutUser => {
           
           return error.response.data.error
         } else {
-          return "servidor erro"
+          return error;
         }
       } else {
        
