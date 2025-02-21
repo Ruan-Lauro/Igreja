@@ -13,6 +13,8 @@ import { useGetPagament } from "@/hooks/useGetPagament";
 import React from "react";
 import { Loading } from "@/components/Loading";
 import Pagination from "@/components/Pagination";
+import Spreadsheet from "@/components/Spreadsheet";
+import DynamicTable from "@/components/DynamicTable";
 
 // type totalPagament = {
 //     paid: number, 
@@ -165,9 +167,9 @@ const InforUsers = () => {
                         <p>Nenhum dado encontrado.</p>
                     )}
                 </div>
-                <div className="mt-5" >
+                <div className="mt-5 sm:w-[80%] w-full" >
                     <h3 className="text-[30px] mt-5 font-bold" >Análise geral</h3>
-                    <div className="mt-5 text-4" >
+                    <div className="mt-5 text-4 mb-20" >
                         <p>Quantidade de usuários: <span className="font-bold" >{totalUsers} pessoas</span></p>
                         <p>Quantidade de pessoas cadastradas: <span className="font-bold" >{totalRegistered} pessoas</span></p>
                         <div className="bg-[#3C3D37] p-4 mt-5" >
@@ -185,6 +187,18 @@ const InforUsers = () => {
                                 <p>Nenhum caso</p>
                             )}
                         </div>
+                    </div>
+                    {list.length !== 0?(
+                        <Spreadsheet data={list} />
+                    ):null}
+                    <div className="flex flex-col gap-4 mt-10 w-full justify-self-center">
+                        {loading ? (
+                            <p>Carregando...</p>
+                        ) : list.length ? (
+                            <DynamicTable data={list} />
+                        ) : (
+                            <p>Nenhum dado encontrado.</p>
+                        )}
                     </div>
                 </div>
             </div>

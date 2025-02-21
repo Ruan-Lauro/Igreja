@@ -7,6 +7,7 @@ export type users = {
   isAdmin: boolean;
   id:  number;
   imgUser?: string; 
+  createdAt?: Date;
 }
 
 interface useGetUsers {
