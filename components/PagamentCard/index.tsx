@@ -225,6 +225,9 @@ export const PagamentCard = ({
       const response = await axios.post("/api/infinitepay/", paymentData, {
         headers: { "Content-Type": "application/json" },
       });
+      
+      console.log("Aqui");
+      console.log(response);
 
       if (response.status === 200 && response.data.status === "approved") {
         console.log(response);
