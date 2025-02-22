@@ -24,7 +24,7 @@ export const PagamentMoney = ({RegisteredId, number, value, twoMethod, Start, En
             numbPayment: number,
             registeredId: RegisteredId,
             checking: "Não precisa",
-            twoMethod: twoMethod
+            twoMethod: twoMethod,
         }
         const pagament = authenticationAddPagament(paga);
         pagament.then(res=>{

@@ -6,6 +6,7 @@ interface useAddPagament {
 }
 
 export type createPagament = {
+    id?:number;
     amount: number;
     method: string;
     quantity: number;
@@ -25,6 +26,7 @@ export const usePostPagament = (): useAddPagament => {
       console.log(PagamentAdd)
 
       const response = await api.post('payment/', {
+        id: PagamentAdd.id,
         amount: PagamentAdd.amount,
         method: PagamentAdd.method,
         quantity: PagamentAdd.quantity,
@@ -33,7 +35,8 @@ export const usePostPagament = (): useAddPagament => {
         checking: PagamentAdd.checking,
         numbPayment: PagamentAdd.numbPayment,
         registeredId: PagamentAdd.registeredId,
-        twoMethod: PagamentAdd.twoMethod
+        twoMethod: PagamentAdd.twoMethod,
+       
       });
 
       return response.data

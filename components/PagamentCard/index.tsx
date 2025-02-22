@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { usePostPagament } from "@/hooks/usePostPagament";
+import { randomInt } from "crypto";
 
 type CardProps = {
   value: number;
@@ -205,12 +206,20 @@ export const PagamentCard = ({
         throw new Error("Opção de parcelamento não encontrada.");
       }
 
+      const idPagament = randomInt(1000000, 9999999);
+
       const paymentData = {
         amount: selectedOption.total,
         cardToken: cardTokenResponse.id,
         installments,
         email,
         paymentMethodId: cardFlag,
+        notification_url: "https://acampamento2025adv.netlify.app/api/webhook",
+        external_reference: idPagament,
+        payer: {
+          first_name: cardHolder.slice(0, cardHolder.indexOf(" ")) || cardHolder,
+        },
+
       };
 
       const response = await axios.post("/api/infinitepay/", paymentData, {
@@ -219,6 +228,7 @@ export const PagamentCard = ({
 
       if (response.status === 200 && response.data.status === "approved") {
         const pag = {
+          id: idPagament,
           amount: value,
           method: "cartão de crédito",
           quantity: selectedOption.total,
