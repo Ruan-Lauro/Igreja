@@ -227,6 +227,7 @@ export const PagamentCard = ({
       });
 
       if (response.status === 200 && response.data.status === "approved") {
+        console.log(response);
         const pag = {
           id: idPagament,
           amount: value,
@@ -248,6 +249,7 @@ export const PagamentCard = ({
           setLoading(false);
         }
       } else {
+        console.log(response);
         alert("Ocorreu um erro ao realizar o pagamento.");
         End();
         setLoading(false);
