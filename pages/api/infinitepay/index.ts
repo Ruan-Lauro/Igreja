@@ -7,7 +7,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   await initCors(req, res);
   if (req.method === 'POST') {
     try {
-      const { amount, installments, cardToken, email, paymentMethodId } = req.body;
+      const { amount, installments, cardToken, email, paymentMethodId, first_name, external_reference } = req.body;
 
       if (!amount || amount <= 0) {
         return res.status(400).json({ error: 'Valor da transação inválido' });
@@ -25,10 +25,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         transaction_amount: amount,
         token: cardToken,
         installments: installments,
-        payment_method_id: "master",
+        payment_method_id: paymentMethodId,
+        external_reference,
+        description: "Pagamento do acampamento 2025 da igreja adventista de Picos-Pi",
         payer: { 
-          email: email
+          email: email,
+          first_name: first_name,
         },
+        additional_info:{
+          items: [ 
+            {
+              id:1,
+              title: "Pagamento do acampamento",
+              unit_price: amount,
+              description: "Pagamento do acampamento 2025 da igreja adventista de Picos-Pi",
+              quantity: 1 
+            }
+          ]
+        }
+        
       };
 
       const response = await axios.post(

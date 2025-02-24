@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { usePostPagament } from "@/hooks/usePostPagament";
-import { randomInt } from "crypto";
+import { v4 as uuidv4 } from 'uuid';
 
 type CardProps = {
   value: number;
@@ -71,7 +71,7 @@ export const PagamentCard = ({
   const detectCardFlag = async (cardNumber: string) => {
     const bin = cardNumber.replace(/\s/g, "").slice(0, 6);
     if (bin.length < 6 || cardFlag) return;
-
+    console.log(bin)
     try {
       const response = await axios.get(
         `https://api.mercadopago.com/v1/payment_methods/search?bin=${bin}&site_id=MLB`,
@@ -82,7 +82,16 @@ export const PagamentCard = ({
         }
       );
       if (response.data.results.length > 0) {
-        setCardFlag(response.data.results[0].id);
+        const flagAccept = ['visa', 'master', 'amex', 'elo', 'hipercard', 'diners'];
+        const searchFlag = response.data.results
+          .map((item:{id:string}) => item.id)  
+          .filter((bandeira:string) => flagAccept.includes(bandeira));
+          console.log(searchFlag)
+        if(searchFlag.length > 0){
+          setCardFlag(searchFlag[0]);
+        }else{
+          alert("Bandeira não encontrada")
+        }
       } else {
         setCardFlag("");
       }
@@ -101,6 +110,8 @@ export const PagamentCard = ({
 
       if (response.data) {
         setInstallmentOptions(response.data);
+        console.log("Parcelamento:")
+        console.log(response)
       }
     } catch (error) {
       console.error("Erro ao buscar opções de parcelas:", error);
@@ -206,7 +217,7 @@ export const PagamentCard = ({
         throw new Error("Opção de parcelamento não encontrada.");
       }
 
-      const idPagament = randomInt(1000000, 9999999);
+      const idPagament = Math.floor(Math.random() * 1000);
 
       const paymentData = {
         amount: selectedOption.total,
@@ -214,13 +225,11 @@ export const PagamentCard = ({
         installments,
         email,
         paymentMethodId: cardFlag,
-        notification_url: "https://acampamento2025adv.netlify.app/api/webhook",
-        external_reference: idPagament,
-        payer: {
-          first_name: cardHolder.slice(0, cardHolder.indexOf(" ")) || cardHolder,
-        },
-
+        external_reference: "ADV-"+idPagament,
+        first_name: cardHolder.slice(0, cardHolder.indexOf(" ")) || cardHolder,
       };
+
+      console.log(paymentData);
 
       const response = await axios.post("/api/infinitepay/", paymentData, {
         headers: { "Content-Type": "application/json" },
