@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { usePostPagament } from "@/hooks/usePostPagament";
-import { v4 as uuidv4 } from 'uuid';
 
 type CardProps = {
   value: number;
