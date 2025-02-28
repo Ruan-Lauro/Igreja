@@ -276,7 +276,7 @@ export const PagamentCard = ({
   return (
     <div className="max-w-md mt-[30px] bg-[#3C3D37] p-6 rounded-lg mb-[20px]">
     <h2 className="text-2xl font-bold text-center text-[#ECDFCC] mb-4">
-      Informações do Cartão de Crédito
+        mações do Cartão de Crédito
     </h2>
     <form onSubmit={handleSubmit}>
       <div className="mb-4">

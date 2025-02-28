@@ -4,7 +4,7 @@ import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import logoimg from "@/public/images/cor 2.png";
 import { AuthInput } from "@/components/input";
 import {useLogin} from "@/hooks/useLogin";
-import { EmailConfirm } from "@/components/EmailConfirm";
+// import { EmailConfirm } from "@/components/EmailConfirm";
 import { usePostUsers } from "@/hooks/usePostUsers";
 import { redirect } from 'next/navigation'
 import { Loading } from "@/components/Loading";
@@ -29,7 +29,7 @@ export default function Home() {
   const [confirmPasswordR, setConfirmPasswordR] = useState('');
 
   //confirm E-mail
-  const[trueConfirmEmail, setTrueConfirmEmail] = useState(false);
+  // const[trueConfirmEmail, setTrueConfirmEmail] = useState(false);
 
   //hooks
   const {authenticationLogin} = useLogin();
@@ -100,14 +100,15 @@ export default function Home() {
         return
       }
       setLoading(false)
-      setTrueConfirmEmail(true);
+      // setTrueConfirmEmail(true);
+      handleConfirmEmail();
     }
   }
 
   //true Confirm E-mail
   const handleConfirmEmail = () =>{
     setLoading(true);
-    setTrueConfirmEmail(false)
+    // setTrueConfirmEmail(false)
     const userRegister = {
       name,
       email: emailR,
@@ -162,13 +163,13 @@ export default function Home() {
         <Loading/>
       ):null}
 
-      {trueConfirmEmail?(
+      {/* {trueConfirmEmail?(
         <div className="z-10 w-full h-full absolute flex justify-center items-center bg-black/50" >
         <EmailConfirm exitConfirm={()=>{
           setTrueConfirmEmail(false); 
         }} email={emailR} autheConfirm={handleConfirmEmail} />
         </div>
-      ):null}
+      ):null} */}
 
       {trueLogin?(
         <React.Fragment>
